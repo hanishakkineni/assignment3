@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Object Manipulation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        input {
+            width: calc(100% - 20px);
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border 0.3s ease;
+        }
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            width: calc(100% - 20px);
+            margin-top: 15px;
+            padding: 15px;
+            font-size: 16px;
+            background-color: teal;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #006666;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            color: #495057;
+            font-weight: 600;
+        }
+        .error {
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create and Manage Person</h2>
+        <input type="text" id="firstNameInput" placeholder="First Name">
+        <input type="text" id="lastNameInput" placeholder="Last Name">
+        <input type="number" id="ageInput" placeholder="Age">
+        <button onclick="createPerson()">Create Person</button>
+        <button onclick="showPersonInfo()">Show Person Info</button>
+        <button onclick="incrementAge()">Increment Age</button>
+        <div class="result" id="personResult"></div>
+    </div>
+
+    <script>
+        let Person = null;
+
+        function createPerson() {
+            const firstName = document.getElementById('firstNameInput').value;
+            const lastName = document.getElementById('lastNameInput').value;
+            const age = parseInt(document.getElementById('ageInput').value, 10);
+
+            if (firstName && lastName && !isNaN(age)) {
+                Person = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    age: age,
+                    getFullName: function() {
+                        return `${this.firstName} ${this.lastName}`;
+                    },
+                    incrementAge: function() {
+                        this.age += 1;
+                    }
+                };
+                document.getElementById('personResult').innerHTML = `Person created: <strong>${Person.getFullName()}</strong>, Age: <strong>${Person.age}</strong>`;
+            } else {
+                document.getElementById('personResult').innerHTML = '<span class="error">Error: Please provide valid inputs for all fields.</span>';
+            }
+        }
+
+        function showPersonInfo() {
+            if (Person) {
+                document.getElementById('personResult').innerHTML = `Full Name: <strong>${Person.getFullName()}</strong>, Age: <strong>${Person.age}</strong>`;
+            } else {
+                document.getElementById('personResult').innerHTML = '<span class="error">Error: Person object not created yet.</span>';
+            }
+        }
+
+        function incrementAge() {
+            if (Person) {
+                Person.incrementAge();
+                showPersonInfo();
+            } else {
+                document.getElementById('personResult').innerHTML = '<span class="error">Error: Person object not created yet.</span>';
+            }
+        }
+    </script>
+</body>
+</html>
